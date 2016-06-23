@@ -17,6 +17,20 @@ public class Sentiment {
 	int SAD = 1;
 	int NEUTRAL = 2;
 	int UNKNOWN = 3;
+	
+	public void Sentiment() {
+		this.happyWords = new HashSet<String>();
+		this.sadWords = new HashSet<String>();
+		this.negationWords = new HashSet<String>();
+		this.neutralWords = new HashSet<String>();
+		this.unknownWords = new HashSet<String>();
+		initSets();
+	}
+
+	public Sentiment() {
+		this.happyWords = new HashSet<String>();
+		initSets();
+	}
 
 	public Set<String> getHappyWords() {
 		return happyWords;
@@ -81,17 +95,11 @@ public class Sentiment {
 	public void setNEUTRAL(int nEUTRAL) {
 		NEUTRAL = nEUTRAL;
 	}
-
-	public Sentiment() {
-		this.happyWords = new HashSet<String>();
-		initSets();
-	}
-
+	
 	public int addWord(String[] words) {
 		return (this.HAPPY);
-
 	}
-
+	
 	// return the mood of an entire string (phrase or sentence)
 	// SAD takes priority, then HAPPY, then NEUTRAL
 	public int analyzeString(String[] words) {
@@ -142,6 +150,20 @@ public class Sentiment {
 			sadWords.add(word);
 		} else if (newMood == NEUTRAL) {
 			neutralWords.add(word);
+		}
+	}
+	
+	public String toString(int mood) {
+		if (mood == HAPPY) {
+			return ("HAPPY");
+		} else if (mood == SAD) {
+			return ("SAD");
+		} else if (mood == NEUTRAL) {
+			return ("NEUTRAL");
+		} else if (mood == UNKNOWN) {
+			return ("UNKNOWN");
+		} else {
+			return ("ERROR: invalid mood");
 		}
 	}
 	
