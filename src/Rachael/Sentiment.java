@@ -11,17 +11,16 @@ public class Sentiment {
 	Set<String> negationWords = new HashSet<String>();
 	Set<String> neutralWords = new HashSet<String>();
 	List<String> unknownWords = new ArrayList<String>();
-	
+
 	// return values for moods - consider changing this to an enum
 	int HAPPY = 0;
 	int SAD = 1;
 	int NEUTRAL = 2;
 	int UNKNOWN = 3;
-	
+
 	public Sentiment() {
 		initSets();
 	}
-
 
 	public Set<String> getHappyWords() {
 		return happyWords;
@@ -86,16 +85,16 @@ public class Sentiment {
 	public void setNEUTRAL(int nEUTRAL) {
 		NEUTRAL = nEUTRAL;
 	}
-	
+
 	public int addWord(String[] words) {
 		return (this.HAPPY);
 	}
-	
+
 	// return the mood of an entire string (phrase or sentence)
 	// SAD takes priority, then HAPPY, then NEUTRAL
 	public int analyzeString(String[] words) {
 		boolean negate = false;
-		int mood = NEUTRAL;		
+		int mood = NEUTRAL;
 
 		for (String word : words) {
 			if (this.happyWords.contains(word)) {
@@ -109,11 +108,11 @@ public class Sentiment {
 			} else if (!this.neutralWords.contains(word)) {
 				unknownWords.add(word);
 			}
+			//System.out.println(word + " mood: " + toString(mood) + "negate: " + negate);
 		}
 		if (mood == HAPPY && negate == true) {
 			mood = SAD;
-		}
-		if (mood == SAD && negate == true) {
+		} else if (mood == SAD && negate == true) {
 			mood = HAPPY;
 		}
 		return (mood);
@@ -143,7 +142,7 @@ public class Sentiment {
 			neutralWords.add(word);
 		}
 	}
-	
+
 	public String toString(int mood) {
 		if (mood == HAPPY) {
 			return ("HAPPY");
@@ -157,7 +156,7 @@ public class Sentiment {
 			return ("ERROR: invalid mood");
 		}
 	}
-	
+
 	// initialize word sets
 	private void initSets() {
 		neutralWords.add("I");

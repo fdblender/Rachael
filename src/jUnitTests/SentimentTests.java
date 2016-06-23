@@ -35,13 +35,32 @@ public class SentimentTests {
 		String[] wordList3 = {"I", "hate", "happy", "cookies"};
 		String[] wordList4 = {"I", "do", "not", "hate", "cookies"};
 		String[] wordList5 = {"I", "don't", "like", "cookies"};
+		String[] wordList6 = {"I", "don't", "it", "me", "newword"};
+		String[] wordList7 = {"I", "might", "it", "me", "newword"};
 		int mood;
 		Sentiment sentiments = new Sentiment();
-		System.out.println(sentiments.analyzeString(wordList1));
-		System.out.println(sentiments.analyzeString(wordList2));
-		System.out.println(sentiments.analyzeString(wordList3));
-		System.out.println(sentiments.analyzeString(wordList4));
-		System.out.println(sentiments.analyzeString(wordList5));
+		
+		mood = sentiments.analyzeString(wordList1);
+		System.out.println(sentiments.toString(mood));
+		
+		mood = sentiments.analyzeString(wordList2);
+		System.out.println(sentiments.toString(mood));
+		
+		mood = sentiments.analyzeString(wordList3);
+		System.out.println(sentiments.toString(mood));
+		
+		mood = sentiments.analyzeString(wordList4);
+		System.out.println(sentiments.toString(mood));
+		
+		mood = sentiments.analyzeString(wordList5);
+		System.out.println(sentiments.toString(mood));
+		
+		mood = sentiments.analyzeString(wordList6);
+		System.out.println(sentiments.toString(mood));		
+		
+		mood = sentiments.analyzeString(wordList7);
+		System.out.println(sentiments.toString(mood));		
+		
 	}
 
 }
