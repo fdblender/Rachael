@@ -18,14 +18,10 @@ public class Sentiment {
 	int NEUTRAL = 2;
 	int UNKNOWN = 3;
 	
-	public void Sentiment() {
+	public Sentiment() {
 		initSets();
 	}
 
-	public Sentiment() {
-		this.happyWords = new HashSet<String>();
-		initSets();
-	}
 
 	public Set<String> getHappyWords() {
 		return happyWords;
