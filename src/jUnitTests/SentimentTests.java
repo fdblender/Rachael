@@ -37,6 +37,7 @@ public class SentimentTests {
 		String[] wordList5 = {"I", "don't", "like", "cookies"};
 		String[] wordList6 = {"I", "don't", "it", "me", "newword"};
 		String[] wordList7 = {"I", "might", "it", "me", "newword"};
+		String[] wordList8 = {"I", "LIKE", "it", "me", "HATE"};
 		int mood;
 		Sentiment sentiments = new Sentiment();
 		
@@ -59,7 +60,12 @@ public class SentimentTests {
 		System.out.println(sentiments.toString(mood));		
 		
 		mood = sentiments.analyzeString(wordList7);
-		System.out.println(sentiments.toString(mood));		
+		System.out.println(sentiments.toString(mood));	
+		
+		mood = sentiments.analyzeString(wordList8);
+		System.out.println(sentiments.toString(mood));	
+		
+		
 		
 	}
 

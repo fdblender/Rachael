@@ -95,8 +95,9 @@ public class Sentiment {
 	public int analyzeString(String[] words) {
 		boolean negate = false;
 		int mood = NEUTRAL;
-
+		
 		for (String word : words) {
+			word = word.toLowerCase();
 			if (this.happyWords.contains(word)) {
 				if (!(mood == SAD)) {
 					mood = HAPPY;
@@ -120,6 +121,7 @@ public class Sentiment {
 
 	// return the mood of a single word
 	public int analyzeWord(String word) {
+		word = word.toLowerCase();
 		if (this.happyWords.contains(word)) {
 			return (HAPPY);
 		} else if (this.sadWords.contains(word)) {
