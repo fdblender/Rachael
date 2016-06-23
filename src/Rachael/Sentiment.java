@@ -19,11 +19,6 @@ public class Sentiment {
 	int UNKNOWN = 3;
 	
 	public void Sentiment() {
-		this.happyWords = new HashSet<String>();
-		this.sadWords = new HashSet<String>();
-		this.negationWords = new HashSet<String>();
-		this.neutralWords = new HashSet<String>();
-		this.unknownWords = new HashSet<String>();
 		initSets();
 	}
 
