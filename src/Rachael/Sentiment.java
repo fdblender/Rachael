@@ -1,16 +1,16 @@
 package Rachael;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 public class Sentiment {
-	Set<String> happyWords;
-	Set<String> sadWords;
-	Set<String> negationWords;
-	Set<String> neutralWords;
-	Set<String> unknownWords;
+	Set<String> happyWords = new HashSet<String>();
+	Set<String> sadWords = new HashSet<String>();
+	Set<String> negationWords = new HashSet<String>();
+	Set<String> neutralWords = new HashSet<String>();
+	List<String> unknownWords = new ArrayList<String>();
 	
 	// return values for moods - consider changing this to an enum
 	int HAPPY = 0;
@@ -50,11 +50,11 @@ public class Sentiment {
 		this.neutralWords = neutral;
 	}
 
-	public Set<String> getUnknownWords() {
+	public List<String> getUnknownWords() {
 		return unknownWords;
 	}
 
-	public void setUnknownWords(Set<String> unknownWords) {
+	public void setUnknownWords(List<String> unknownWords) {
 		this.unknownWords = unknownWords;
 	}
 
