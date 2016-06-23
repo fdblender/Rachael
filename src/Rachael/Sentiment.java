@@ -132,7 +132,7 @@ public class Sentiment {
 		return (UNKNOWN);
 	}
 
-	// removes the word from the unkown word list and
+	// removes the word from the unknown word list and
 	// adds it to the given list
 	public void updateUnknownWord(String word, int newMood) {
 		unknownWords.remove(word);
