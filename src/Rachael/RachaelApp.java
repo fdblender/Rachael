@@ -48,7 +48,7 @@ public class RachaelApp {
 			} else {
 				//System.out.println("in else");
 				int mood = sentiment.analyzeString(input);
-				System.out.println(sentiment.toString(mood));
+				//System.out.println(sentiment.toString(mood));
 				int randomNum = rnd.nextInt(3);
 				if (randomNum == 0) {
 					randomNum = rnd.nextInt(hedgeSet.size());
@@ -71,7 +71,7 @@ public class RachaelApp {
 				} else {
 					randomNum = rnd.nextInt(3);
 					if (randomNum == 0) {
-						System.out.println("in unknown word");
+						//System.out.println("in unknown word");
 						if (sentiment.getUnknownWords().size() == 0) {
 							randomNum = rnd.nextInt(neutralRandomSet.size());
 							output = new StringBuilder(neutralRandomSet.get(randomNum));
@@ -86,6 +86,7 @@ public class RachaelApp {
 							
 							sentiment.updateUnknownWord(word, in.nextInt());
 							System.out.println("Ok, Thank you");
+							continue;
 						}
 
 					} else if (randomNum == 1) {
