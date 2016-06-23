@@ -36,66 +36,81 @@ public class RachaelApp {
 			userInput.add(response);
 			diary.setUserInput(userInput);
 			input = response.split(" ");
-			int mood = sentiment.analyzeString(input);
-			int randomNum = rnd.nextInt(3);
-			if (randomNum == 0) {
-				randomNum = rnd.nextInt(hedgeSet.size());
-				output = new StringBuilder(hedgeSet.get(randomNum));
-				if (randomNum == 2) {
-					System.out.println(output);
-					break;
-				}
-			} else if (randomNum == 1) {
-				randomNum = rnd.nextInt(qualifierList.size());
-				output = new StringBuilder(qualifierList.get(randomNum));
-				for (String x : input) {
-					if (replacementMap.containsKey(x)) {
-						output.append(replacementMap.get(x) + " ");
-					} else {
-						output.append(x + " ");
-					}
-				}
-			} else {
-				randomNum = rnd.nextInt(3);
-				if (randomNum == 0) {
-					if (sentiment.getUnknownWords().size() == 0) {
-						randomNum = rnd.nextInt(neutralRandomSet.size());
-						output = new StringBuilder(neutralRandomSet.get(randomNum));
-					} else {
-						randomNum = rnd.nextInt(sentiment.getUnknownWords().size());
-						String word = sentiment.getUnknownWords().get(randomNum);
-						output = new StringBuilder(
-								"What does this " + word + " make you? Happy 0, Sad 1 or Nothing 2?");
-						sentiment.updateUnknownWord(word, in.nextInt());
-					}
-
-				} else if (randomNum == 1) {
-					if (mood == 0 && sentiment.happyWords.size() >= 10) {
-						randomNum = rnd.nextInt(happyRandomSet.size());
-						output = new StringBuilder(happyRandomSet.get(randomNum));
-					} else if (mood == 1 && sentiment.sadWords.size() >= 10) {
-						randomNum = rnd.nextInt(sadRandomSet.size());
-						output = new StringBuilder(sadRandomSet.get(randomNum));
-					} else {
-						randomNum = rnd.nextInt(sadRandomSet.size());
-						output = new StringBuilder(neutralRandomSet.get(randomNum));
-					}
-				} else {
-					randomNum = rnd.nextInt(diary.getUserInput().size());
-					output = new StringBuilder("Previously you mentioned " + diary.getUserInput().get(randomNum)
-							+ ", do you want talk more on this");
-				}
-
-			}
 			if (input[0].equals("Q") && input.length == 1) {
 				quit++;
 				if (quit == 3) {
 					break;
 				}
-				randomNum = rnd.nextInt(diary.getUserInput().size());
-				output = new StringBuilder("Don't go yet, you were saying that " + diary.getUserInput().get(randomNum)
+				int rand = rnd.nextInt(diary.getUserInput().size());
+				output = new StringBuilder("Don't go yet, you were saying "
+						+ "that " + diary.getUserInput().get(rand)
 						+ ", do you want to chat more");
+			} else {
+				//System.out.println("in else");
+				int mood = sentiment.analyzeString(input);
+				System.out.println(sentiment.toString(mood));
+				int randomNum = rnd.nextInt(3);
+				if (randomNum == 0) {
+					randomNum = rnd.nextInt(hedgeSet.size());
+					output = new StringBuilder(hedgeSet.get(randomNum));
+					if (randomNum == 2) {
+						System.out.println(output);
+						break;
+					}
+				} else if (randomNum == 1) {
+					randomNum = rnd.nextInt(qualifierList.size());
+					output = new StringBuilder(qualifierList.get(randomNum)+ " ");
+					for (String x : input) {
+						if (replacementMap.containsKey(x)) {
+							output.append(replacementMap.get(x) + " ");
+						} else {
+							output.append(x + " ");
+						}
+					}
+					
+				} else {
+					randomNum = rnd.nextInt(3);
+					if (randomNum == 0) {
+						System.out.println("in unknown word");
+						if (sentiment.getUnknownWords().size() == 0) {
+							randomNum = rnd.nextInt(neutralRandomSet.size());
+							output = new StringBuilder(neutralRandomSet.get(randomNum));
+						} else {
+							randomNum = rnd.nextInt(sentiment.getUnknownWords().size());
+							//System.out.println(randomNum);
+							String word = sentiment.getUnknownWords().get(randomNum);
+							//System.out.println(word);
+							output = new StringBuilder(
+									"What does this " + word + " make you? Happy 0, Sad 1 or Nothing 2?");
+							System.out.println(output);
+							
+							sentiment.updateUnknownWord(word, in.nextInt());
+							System.out.println("Ok, Thank you");
+						}
+
+					} else if (randomNum == 1) {
+						
+						if (mood == 0 && sentiment.happyWords.size() >= 10) {
+							randomNum = rnd.nextInt(happyRandomSet.size());
+							output = new StringBuilder(happyRandomSet.get(randomNum));
+						} else if (mood == 1 && sentiment.sadWords.size() >= 10) {
+							randomNum = rnd.nextInt(sadRandomSet.size());
+							output = new StringBuilder(sadRandomSet.get(randomNum));
+						} else {
+							randomNum = rnd.nextInt(neutralRandomSet.size());
+							output = new StringBuilder(neutralRandomSet.get(randomNum));
+						}
+					} else {
+						randomNum = rnd.nextInt(diary.getUserInput().size());
+						output = new StringBuilder("Previously you mentioned " + diary.getUserInput().get(randomNum)
+								+ ", do you want talk more on this");
+					}
+
+				}
 			}
+			
+			
+			System.out.println(output);
 		}
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
@@ -131,7 +146,7 @@ public class RachaelApp {
 		hedgeSet.add(3, "Excuse me");
 		hedgeSet.add(4, "Appreciated");
 		hedgeSet.add(5, "I thank you for all your help");
-		hedgeSet.add(6, "It pleasure talking to you");
+		hedgeSet.add(6, "It's pleasure talking to you");
 
 		happyRandomSet.add("Are you feeling happy");
 		happyRandomSet.add("I think you are doing good today");

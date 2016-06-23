@@ -44,7 +44,7 @@ public class Diary {
 
 	public Diary (String name) {
 		this.name = name;
-		File file =  new File("Names.txt");
+		File file =  new File("Names");
 		try {
 			FileReader fwr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fwr);

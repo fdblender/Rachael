@@ -112,9 +112,10 @@ public class Sentiment {
 		}
 		if (mood == HAPPY && negate == true) {
 			mood = SAD;
-		}
-		if (mood == SAD && negate == true) {
+		} else if (mood == HAPPY && negate == false) {
 			mood = HAPPY;
+		} else if (mood == SAD) {
+			mood = SAD;
 		}
 		return (mood);
 	}
@@ -191,6 +192,7 @@ public class Sentiment {
 		happyWords.add("excited");
 		happyWords.add("estatic");
 		happyWords.add("wonderful");
+		happyWords.add("good");
 
 		sadWords.add("sad");
 		sadWords.add("bad");
