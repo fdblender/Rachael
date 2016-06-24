@@ -43,28 +43,28 @@ public class SentimentTests {
 		Sentiment sentiments = new Sentiment();
 		
 		mood = sentiments.analyzeString(wordList1);
-		System.out.println(sentiments.toString(mood));
+		System.out.println(mood.toString(mood));
 		
 		mood = sentiments.analyzeString(wordList2);
-		System.out.println(sentiments.toString(mood));
+		System.out.println(mood.toString(mood));
 		
 		mood = sentiments.analyzeString(wordList3);
-		System.out.println(sentiments.toString(mood));
+		System.out.println(mood.toString(mood));
 		
 		mood = sentiments.analyzeString(wordList4);
-		System.out.println(sentiments.toString(mood));
+		System.out.println(mood.toString(mood));
 		
 		mood = sentiments.analyzeString(wordList5);
-		System.out.println(sentiments.toString(mood));
+		System.out.println(mood.toString(mood));
 		
 		mood = sentiments.analyzeString(wordList6);
-		System.out.println(sentiments.toString(mood));		
+		System.out.println(mood.toString(mood));		
 		
 		mood = sentiments.analyzeString(wordList7);
-		System.out.println(sentiments.toString(mood));	
+		System.out.println(mood.toString(mood));	
 		
 		mood = sentiments.analyzeString(wordList8);
-		System.out.println(sentiments.toString(mood));	
+		System.out.println(mood.toString(mood));	
 		
 		
 		
