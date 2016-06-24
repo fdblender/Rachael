@@ -1,6 +1,6 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import Rachael.Moods;
 import Rachael.Sentiment;
 
 public class SentimentTests {
@@ -38,7 +39,7 @@ public class SentimentTests {
 		String[] wordList6 = {"I", "don't", "it", "me", "newword"};
 		String[] wordList7 = {"I", "might", "it", "me", "newword"};
 		String[] wordList8 = {"I", "LIKE", "it", "me", "HATE"};
-		int mood;
+		Moods mood;
 		Sentiment sentiments = new Sentiment();
 		
 		mood = sentiments.analyzeString(wordList1);

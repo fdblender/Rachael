@@ -96,10 +96,10 @@ public class RachaelApp {
 
 					} else if (randomNum == 1) {
 						
-						if (mood == Moods.HAPPY && sentiment.happyWords.size() >= 10) {
+						if (mood == Moods.HAPPY && sentiment.happyWords.size() >= 5) {
 							randomNum = rnd.nextInt(happyRandomSet.size());
 							output = new StringBuilder(happyRandomSet.get(randomNum));
-						} else if (mood == Moods.SAD && sentiment.sadWords.size() >= 10) {
+						} else if (mood == Moods.SAD && sentiment.sadWords.size() >= 5) {
 							randomNum = rnd.nextInt(sadRandomSet.size());
 							output = new StringBuilder(sadRandomSet.get(randomNum));
 						} else {
