@@ -89,7 +89,7 @@ public class Sentiment {
 	
 	// return the mood of an entire string (phrase or sentence)
 	// SAD takes priority, then HAPPY, then NEUTRAL
-	public Moods analyzeString(String[] words) {
+	public Moods analyzeString(Admin admin, String[] words) {
 		boolean negate = false;
 		Moods mood = Moods.NEUTRAL;
 		
@@ -98,24 +98,30 @@ public class Sentiment {
 			if (this.happyWords.contains(word)) {
 				if (!(mood == Moods.SAD)) {
 					mood = Moods.HAPPY;
+					admin.updateMostUsed(word, Moods.HAPPY);
 				}
 			} else if (this.sadWords.contains(word)) {
 				mood = Moods.SAD;
+				admin.updateMostUsed(word, Moods.SAD);
 			} else if (this.negationWords.contains(word)) {
 				negate = true;
+			} else if (this.neutralWords.contains(word)) {
+				admin.updateMostUsed(word, Moods.NEUTRAL);
 			} else if (!this.neutralWords.contains(word)) {
 				//System.out.println("adding word " + word);
+				admin.updateMostUsed(word, Moods.UNKNOWN);
 				this.unknownWords.add(word);
 				//System.out.println("size- " + unknownWords.size());
 			}
 			//System.out.println(word + " mood: " + toString(mood) + "negate: " + negate);
 		}
 		if (mood == Moods.HAPPY && negate == true) {
-			mood = Moods.SAD;
+			mood = Moods.SAD;			
 
 		} else if (mood == Moods.SAD && negate == true) {
 			mood = Moods.HAPPY;
 		}
+		
 		return (mood);
 	}
 
@@ -134,14 +140,17 @@ public class Sentiment {
 
 	// removes the word from the unknown word list and
 	// adds it to the given list
-	public void updateUnknownWord(String word, Moods newMood) {
+	public void updateUnknownWord(Admin admin, String word, Moods newMood) {
 		unknownWords.remove(word);
 		if (newMood == Moods.HAPPY) {
 			happyWords.add(word);
+			admin.updateMostUsed(word, Moods.HAPPY);
 		} else if (newMood == Moods.SAD) {
 			sadWords.add(word);
+			admin.updateMostUsed(word, Moods.SAD);
 		} else if (newMood == Moods.NEUTRAL) {
 			neutralWords.add(word);
+			admin.updateMostUsed(word, Moods.NEUTRAL);
 		}
 	}
 

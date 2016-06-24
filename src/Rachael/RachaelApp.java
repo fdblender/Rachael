@@ -17,6 +17,7 @@ public class RachaelApp {
 	static List<String> sadRandomSet = new ArrayList<String>();
 	static List<String> neutralRandomSet = new ArrayList<String>();
 	static Diary diary;
+	static Admin admin;
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
@@ -29,6 +30,7 @@ public class RachaelApp {
 				"Hi, What's your name? Rachael is expensive. " + "Her time costs $150.00 per 15 minute session.");
 		String name = in.nextLine();
 		diary = new Diary(name);
+		admin = new Admin(name);
 		initialize();
 		System.out.println("How are you doing today? you can enter Q to " + "quit at any time");
 		Random rnd = new Random();
@@ -54,7 +56,7 @@ public class RachaelApp {
 						+ ", do you want to chat more");
 			} else {
 				//System.out.println("in else");
-				Moods mood = sentiment.analyzeString(input);
+				Moods mood = sentiment.analyzeString(admin, input);
 				if (mood == Moods.HAPPY) countHappy++;
 				else if (mood == Moods.SAD) countSad++;
 				//System.out.println(sentiment.getUnknownWords().size());
@@ -95,11 +97,11 @@ public class RachaelApp {
 							System.out.println(output);
 							int resp = in.nextInt();
 							if (resp == 0)
-								sentiment.updateUnknownWord(word, Moods.HAPPY);
+								sentiment.updateUnknownWord(admin,word, Moods.HAPPY);
 							else if (resp == 1)
-								sentiment.updateUnknownWord(word, Moods.SAD);
+								sentiment.updateUnknownWord(admin,word, Moods.SAD);
 							else
-								sentiment.updateUnknownWord(word, Moods.NEUTRAL);
+								sentiment.updateUnknownWord(admin,word, Moods.NEUTRAL);
 							System.out.println("Ok, Thank you");
 							continue;
 						}
@@ -143,6 +145,7 @@ public class RachaelApp {
 		System.out.println("Cost for the session: " + FormatNumberUtil.getFormattedCurrency(cost));
 		System.out.println("Bye. See you again!!");
 		diary.loadFile();
+		admin.addDetails(diary.getName());
 		in.close();
 	}
 
@@ -153,7 +156,7 @@ public class RachaelApp {
 		replacementMap.put("i", "you");
 		replacementMap.put("am", "are");
 		replacementMap.put("are", "am");
-		replacementMap.put("you", "me");
+		replacementMap.put("you", "i");
 		replacementMap.put("your", "my");
 		replacementMap.put("we", "you");
 		replacementMap.put("here", "there");
