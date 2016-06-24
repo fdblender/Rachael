@@ -114,10 +114,8 @@ public class Sentiment {
 		if (mood == HAPPY && negate == true) {
 			mood = SAD;
 
-		} else if (mood == HAPPY && negate == false) {
+		} else if (mood == SAD && negate == true) {
 			mood = HAPPY;
-		} else if (mood == SAD) {
-			mood = SAD;
 		}
 		return (mood);
 	}
