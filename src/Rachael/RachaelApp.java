@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import FormatNumber.FormatNumberUtil;
+
 public class RachaelApp {
 	static Map<String, String> replacementMap = new HashMap<String, String>();
 	static List<String> hedgeSet = new ArrayList<String>();
@@ -14,16 +16,20 @@ public class RachaelApp {
 	static List<String> happyRandomSet = new ArrayList<String>();
 	static List<String> sadRandomSet = new ArrayList<String>();
 	static List<String> neutralRandomSet = new ArrayList<String>();
+	static Diary diary;
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		initialize();
+		int countHappy =0;
+		int countSad =0;
+		int counterName =0;
 		StringBuilder output;
 		String[] input;
 		System.out.println(
 				"Hi, What's your name? Rachael is expensive. " + "Her time costs $150.00 per 15 minute session.");
 		String name = in.nextLine();
-		Diary diary = new Diary(name);
+		diary = new Diary(name);
+		initialize();
 		System.out.println("How are you doing today? you can enter Q to " + "quit at any time");
 		Random rnd = new Random();
 		Sentiment sentiment = new Sentiment();
@@ -31,11 +37,12 @@ public class RachaelApp {
 		double cost = 0;
 		long startTime = System.currentTimeMillis();
 		while (true) {
+			counterName++;
 			String response = in.nextLine();
 			List<String> userInput = diary.getUserInput();
 			userInput.add(response);
 			diary.setUserInput(userInput);
-			input = response.split(" ");
+			input = response.split(" ");			
 			if (input[0].equals("Q") && input.length == 1) {
 				quit++;
 				if (quit == 3) {
@@ -48,6 +55,9 @@ public class RachaelApp {
 			} else {
 				//System.out.println("in else");
 				Moods mood = sentiment.analyzeString(input);
+				if (mood == Moods.HAPPY) countHappy++;
+				else if (mood == Moods.SAD) countSad++;
+				//System.out.println(sentiment.getUnknownWords().size());
 				//System.out.println(sentiment.toString(mood));
 				int randomNum = rnd.nextInt(3);
 				if (randomNum == 0) {
@@ -77,11 +87,11 @@ public class RachaelApp {
 							output = new StringBuilder(neutralRandomSet.get(randomNum));
 						} else {
 							randomNum = rnd.nextInt(sentiment.getUnknownWords().size());
-							//System.out.println(randomNum);
+							System.out.println(randomNum);
 							String word = sentiment.getUnknownWords().get(randomNum);
-							//System.out.println(word);
+							System.out.println(word);
 							output = new StringBuilder(
-									"What does this " + word + " make you? Happy 0, Sad 1 or Nothing 2?");
+									"What does this '" + word + "' make you? Happy 0, Sad 1 or Nothing 2?");
 							System.out.println(output);
 							int resp = in.nextInt();
 							if (resp == 0)
@@ -115,13 +125,22 @@ public class RachaelApp {
 				}
 			}
 			
+			if (counterName == 4) {
+				System.out.println(diary.getName() + ", " + output.toString().toLowerCase());
+				counterName =0;
+			} else {
+				System.out.println(output);
+			}
 			
-			System.out.println(output);
 		}
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		cost = 150.0 + ((totalTime * 1000 * 60 / 15) - 1) * 150;
-		System.out.println("Cost for the session: $" + cost);
+		if (countHappy > countSad) 
+			System.out.println("I am glad you are doing ok.");
+		else 
+			System.out.println("You will get better, keep coming for sessions");
+		cost = 150.0 + (((totalTime/ (15*60*1000))) * 150);
+		System.out.println("Cost for the session: " + FormatNumberUtil.getFormattedCurrency(cost));
 		System.out.println("Bye. See you again!!");
 		diary.loadFile();
 		in.close();
@@ -133,70 +152,57 @@ public class RachaelApp {
 		replacementMap.put("me", "you");
 		replacementMap.put("i", "you");
 		replacementMap.put("am", "are");
+		replacementMap.put("are", "am");
 		replacementMap.put("you", "me");
 		replacementMap.put("your", "my");
 		replacementMap.put("we", "you");
-		replacementMap.put("you", "we");
-		replacementMap.put("they", "you");
-		replacementMap.put("you", "they");
 		replacementMap.put("here", "there");
 		replacementMap.put("there", "here");
-		replacementMap.put("them", "us");
-		replacementMap.put("top", "down");
-		replacementMap.put("right", "left");
-		replacementMap.put("good", "bad");
-
+		
+		
 		hedgeSet.add(0, "Please tell me more");
 		hedgeSet.add(1, "Many of my patients tell me the same thing");
 		hedgeSet.add(2, "It is getting late, maybe we had better quit");
-		hedgeSet.add(3, "Excuse me");
-		hedgeSet.add(4, "Appreciated");
-		hedgeSet.add(5, "I thank you for all your help");
-		hedgeSet.add(6, "It's pleasure talking to you");
+		hedgeSet.add(3, "Excuse me, can you elaborate");
+		hedgeSet.add(4, "I appreciat what you are saying, but are you sure");
+		hedgeSet.add(5, "Thank you for opening up to me, tell me more");
+		hedgeSet.add(6, "You are very thoughtful, please continue");
 
 		happyRandomSet.add("Are you feeling happy");
 		happyRandomSet.add("I think you are doing good today");
-		happyRandomSet.add("I love to have it");
-		happyRandomSet.add("Its fun going on a trip");
-		happyRandomSet.add("Happy holidays");
-		happyRandomSet.add("I enjoyed with my family");
-		happyRandomSet.add("Are feeling delightful?");
-		happyRandomSet.add("I am honored to have you as my student in the class");
-		happyRandomSet.add("I appreciate your help");
-		happyRandomSet.add("Always be thankful to people who helped you");
-		happyRandomSet.add("You are wonderful student  amongst the class");
-		happyRandomSet.add("He is very funny boy I have met");
-		happyRandomSet.add("Happiness is a feeling of joy");
-		happyRandomSet.add("I like to eat icecream");
-		happyRandomSet.add("Crazy, funny time with friends are most memorable moments");
+		happyRandomSet.add("I love to see you so happy");
+		happyRandomSet.add("I am glad you are doing good");
+		happyRandomSet.add("I am glad you are feeling that way");
+		happyRandomSet.add("What's made you so happy?");
+		happyRandomSet.add("You sound cheerful, keep the people that make you happy close");
+		happyRandomSet.add("Keep smiling, you look so good");
+		happyRandomSet.add("You sound content");
+		happyRandomSet.add("That's a positive statement");
+		happyRandomSet.add("You are very optimistic");
 
-		qualifierList.add("Why do you say that");
+		qualifierList.add("Why do you say, ");
 		qualifierList.add("You seem to think that");
 		qualifierList.add("So, you are concerned that");
 		qualifierList.add("Oh, you feel that");
 		qualifierList.add("Really, you think that");
-		qualifierList.add("Why you feel that");
-		qualifierList.add("Are you sure that");
-		qualifierList.add("You sound like an idiot saying that");
+		qualifierList.add("Why do you feel that");
+		qualifierList.add("Are you sure,");
+		qualifierList.add("You sound little confused when you say,");
 		qualifierList.add("You can't say that");
 		qualifierList.add("You are crazy if you think that");
-		qualifierList.add("Breath Dude!! you can't say that");
+		qualifierList.add("Breath Dude!! you can't say,");
 
-		sadRandomSet.add("You are an idiot");
-		sadRandomSet.add("I consider him to be very bad");
-		sadRandomSet.add("Teacher scolds naughty students");
-		sadRandomSet.add("You are so roud");
-		sadRandomSet.add("Bad thinking will scare you more");
-		sadRandomSet.add("Arent you mad on me today");
-		sadRandomSet.add("Slapping without a reason is werid");
-		sadRandomSet.add("Did you murder the him");
-		sadRandomSet.add("Why do you kill them");
-		sadRandomSet.add("I am not well");
-		sadRandomSet.add("Sorry for coming late");
-		sadRandomSet.add("There was a death at my family");
-		sadRandomSet.add("I met with an accident last night");
-		sadRandomSet.add("I cry when you scold me");
-		sadRandomSet.add("Tears flooded in his eyes for sorrow");
+		sadRandomSet.add("You sound so depressed, do you need some prosac?");
+		sadRandomSet.add("It's alright, just take the next step");
+		sadRandomSet.add("Set a positive goal for youself");
+		sadRandomSet.add("Don't worry, things happen");
+		sadRandomSet.add("There's a silver lining to every cloud");
+		sadRandomSet.add("Tomorrow will be better");
+		sadRandomSet.add("Too bad, I feel for you");
+		sadRandomSet.add("Do you need a hug");
+		sadRandomSet.add("You are too depressing, for once in you life cheer up");
+		sadRandomSet.add("Go ahead and vent your anger at your spouse");
+		sadRandomSet.add("You are venting too much");
 
 		neutralRandomSet.add("Why do you say that");
 		neutralRandomSet.add("You seem to think that");

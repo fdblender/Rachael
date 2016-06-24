@@ -58,16 +58,24 @@ public class Diary {
 				}
 				nameRead = br.readLine();
 			}
-			if (!found) {
-				userSession = new File (name+"Sesion");
-				userSession.createNewFile();
-			}
 			br.close();
 			fwr.close();
+			if (!found) {
+				FileWriter fr = new FileWriter(file);
+				BufferedWriter bwr = new BufferedWriter(fr);
+				bwr.write(name + "\n");
+				userSession = new File (name+"Sesion");
+				userSession.createNewFile();
+				bwr.close();
+				fr.close();
+				
+			}
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("IO Exception");
+			e.printStackTrace();
 		} 
 	}
 

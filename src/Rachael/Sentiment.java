@@ -104,7 +104,9 @@ public class Sentiment {
 			} else if (this.negationWords.contains(word)) {
 				negate = true;
 			} else if (!this.neutralWords.contains(word)) {
-				unknownWords.add(word);
+				//System.out.println("adding word " + word);
+				this.unknownWords.add(word);
+				//System.out.println("size- " + unknownWords.size());
 			}
 			//System.out.println(word + " mood: " + toString(mood) + "negate: " + negate);
 		}
@@ -159,7 +161,8 @@ public class Sentiment {
 
 	// initialize word sets
 	private void initSets() {
-		neutralWords.add("I");
+		neutralWords.add("i");
+		neutralWords.add("am");
 		neutralWords.add("me");
 		neutralWords.add("you");
 		neutralWords.add("it");
