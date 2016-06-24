@@ -13,10 +13,10 @@ public class Sentiment {
 	List<String> unknownWords = new ArrayList<String>();
 
 	// return values for moods - consider changing this to an enum
-	int HAPPY = 0;
-	int SAD = 1;
-	int NEUTRAL = 2;
-	int UNKNOWN = 3;
+	//int HAPPY = 0;
+	//int SAD = 1;
+	//int NEUTRAL = 2;
+	//int UNKNOWN = 3;
 
 	public Sentiment() {
 		initSets();
@@ -62,7 +62,7 @@ public class Sentiment {
 		this.unknownWords = unknownWords;
 	}
 
-	public int getHAPPY() {
+	/*public int getHAPPY() {
 		return HAPPY;
 	}
 
@@ -84,26 +84,23 @@ public class Sentiment {
 
 	public void setNEUTRAL(int nEUTRAL) {
 		NEUTRAL = nEUTRAL;
-	}
+	}*/
 
-	public int addWord(String[] words) {
-		return (this.HAPPY);
-	}
-
+	
 	// return the mood of an entire string (phrase or sentence)
 	// SAD takes priority, then HAPPY, then NEUTRAL
-	public int analyzeString(String[] words) {
+	public Moods analyzeString(String[] words) {
 		boolean negate = false;
-		int mood = NEUTRAL;
+		Moods mood = Moods.NEUTRAL;
 		
 		for (String word : words) {
 			word = word.toLowerCase();
 			if (this.happyWords.contains(word)) {
-				if (!(mood == SAD)) {
-					mood = HAPPY;
+				if (!(mood == Moods.SAD)) {
+					mood = Moods.HAPPY;
 				}
 			} else if (this.sadWords.contains(word)) {
-				mood = SAD;
+				mood = Moods.SAD;
 			} else if (this.negationWords.contains(word)) {
 				negate = true;
 			} else if (!this.neutralWords.contains(word)) {
@@ -111,49 +108,49 @@ public class Sentiment {
 			}
 			//System.out.println(word + " mood: " + toString(mood) + "negate: " + negate);
 		}
-		if (mood == HAPPY && negate == true) {
-			mood = SAD;
+		if (mood == Moods.HAPPY && negate == true) {
+			mood = Moods.SAD;
 
-		} else if (mood == SAD && negate == true) {
-			mood = HAPPY;
+		} else if (mood == Moods.SAD && negate == true) {
+			mood = Moods.HAPPY;
 		}
 		return (mood);
 	}
 
 	// return the mood of a single word
-	public int analyzeWord(String word) {
+	public Moods analyzeWord(String word) {
 		word = word.toLowerCase();
 		if (this.happyWords.contains(word)) {
-			return (HAPPY);
+			return (Moods.HAPPY);
 		} else if (this.sadWords.contains(word)) {
-			return (SAD);
+			return (Moods.SAD);
 		} else if (this.neutralWords.contains(word)) {
-			return (NEUTRAL);
+			return (Moods.NEUTRAL);
 		}
-		return (UNKNOWN);
+		return (Moods.UNKNOWN);
 	}
 
 	// removes the word from the unknown word list and
 	// adds it to the given list
-	public void updateUnknownWord(String word, int newMood) {
+	public void updateUnknownWord(String word, Moods newMood) {
 		unknownWords.remove(word);
-		if (newMood == HAPPY) {
+		if (newMood == Moods.HAPPY) {
 			happyWords.add(word);
-		} else if (newMood == SAD) {
+		} else if (newMood == Moods.SAD) {
 			sadWords.add(word);
-		} else if (newMood == NEUTRAL) {
+		} else if (newMood == Moods.NEUTRAL) {
 			neutralWords.add(word);
 		}
 	}
 
-	public String toString(int mood) {
-		if (mood == HAPPY) {
+	public String toString(Moods mood) {
+		if (mood == Moods.HAPPY) {
 			return ("HAPPY");
-		} else if (mood == SAD) {
+		} else if (mood == Moods.SAD) {
 			return ("SAD");
-		} else if (mood == NEUTRAL) {
+		} else if (mood == Moods.NEUTRAL) {
 			return ("NEUTRAL");
-		} else if (mood == UNKNOWN) {
+		} else if (mood == Moods.UNKNOWN) {
 			return ("UNKNOWN");
 		} else {
 			return ("ERROR: invalid mood");

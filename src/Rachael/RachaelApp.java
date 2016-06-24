@@ -47,7 +47,7 @@ public class RachaelApp {
 						+ ", do you want to chat more");
 			} else {
 				//System.out.println("in else");
-				int mood = sentiment.analyzeString(input);
+				Moods mood = sentiment.analyzeString(input);
 				//System.out.println(sentiment.toString(mood));
 				int randomNum = rnd.nextInt(3);
 				if (randomNum == 0) {
@@ -83,18 +83,23 @@ public class RachaelApp {
 							output = new StringBuilder(
 									"What does this " + word + " make you? Happy 0, Sad 1 or Nothing 2?");
 							System.out.println(output);
-							
-							sentiment.updateUnknownWord(word, in.nextInt());
+							int resp = in.nextInt();
+							if (resp == 0)
+								sentiment.updateUnknownWord(word, Moods.HAPPY);
+							else if (resp == 1)
+								sentiment.updateUnknownWord(word, Moods.SAD);
+							else
+								sentiment.updateUnknownWord(word, Moods.NEUTRAL);
 							System.out.println("Ok, Thank you");
 							continue;
 						}
 
 					} else if (randomNum == 1) {
 						
-						if (mood == 0 && sentiment.happyWords.size() >= 10) {
+						if (mood == Moods.HAPPY && sentiment.happyWords.size() >= 10) {
 							randomNum = rnd.nextInt(happyRandomSet.size());
 							output = new StringBuilder(happyRandomSet.get(randomNum));
-						} else if (mood == 1 && sentiment.sadWords.size() >= 10) {
+						} else if (mood == Moods.SAD && sentiment.sadWords.size() >= 10) {
 							randomNum = rnd.nextInt(sadRandomSet.size());
 							output = new StringBuilder(sadRandomSet.get(randomNum));
 						} else {
